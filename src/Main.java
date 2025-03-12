@@ -1,0 +1,76 @@
+import java.util.Scanner;
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner scanner=new Scanner(System.in);
+        int opcion=0;
+        while (opcion!=19) {
+            System.out.println("1.-Modificar el valor de un elemento de un XML según un ID.\n" +
+                    "2.-Eliminar un videojuego según su ID.\n" +
+                    "3.-Obtener todos los videojuegos ordenados por plataforma y en segundo lugar por título (se mostrarán los siguientes campos: id, titulo, precio, disponibilidad, edad_minima_recomendada y plataforma).\n" +
+                    "4.-Listar videojuegos con una edad_minima_recomendada menor o igual a X años (se mostrarán los siguientes campos: id, titulo, precio, disponibilidad, edad_minima_recomendada y plataforma). Se deberá mostrar la información ordenada según la edad_minima_recomendada.\n" +
+                    "5.-Mostrar la plataforma, el titulo y el precio del videojuego más barato para cada plataforma. En el caso de haber varios se devolverá el de la primera posición.\n" +
+                    "6.-Mostrar el titulo y el genero de aquellos videojuegos cuya descripcion incluya una subcadena, independientemente del uso de mayúsculas o minúsculas. Se deberá mostrar la información ordenada alfabéticamente según el genero.\n" +
+                    "7.-Mostrar la cantidad total de videojuegos para cada plataforma (teniendo en cuenta el elemento disponibilidad) y calcular el porcentaje que representa respecto al total de videojuegos. Se deberá mostrar la información ordenada de forma descendente por la cantidad de videojuegos.\n" +
+                    "8.-Mostrar el precio que costaría comprar todos los videojuegos disponibles (teniendo en cuenta el precio de cada videojuego y la disponibilidad de cada uno).\n" +
+                    "9.-Crear un nuevo usuario (no podrá haber email repetidos).\n" +
+                    "10.-Identificar usuario según el email. Dado el email se obtendrá el id del usuario de forma que las siguientes consultas se harán sobre ese usuario. Para cambiar de usuario se tendrá que volver a seleccionar esta opción.\n" +
+                    "11.-Borrar un usuario.\n" +
+                    "12.-Modificar el valor de un campo de la información del usuario.\n" +
+                    "13.-Añadir videojuegos al carrito del usuario. Se mostrará la lista de videojuegos cuya edad_minima_recomendada sea inferior o igual a la del usuario actual y se pedirá: id del videojuego y cantidad, así como si se desea seguir introduciendo más videojuegos.\n" +
+                    "14.-Mostrar el carrito del usuario. Se mostrarán los datos del carrito y el coste total.\n" +
+                    "15.-Comprar el carrito del usuario. Se mostrará el contenido del carrito junto con una orden de confirmación. Si la orden es positiva se pasarán todos los videojuegos a formar parte de una nueva compra y desaparecerán del carrito.\n" +
+                    "16.-Mostrar las compras del usuario, incluyendo la información de la fecha de cada compra.\n" +
+                    "17.-Teniendo en cuenta todos los usuarios, calcular el coste de cada carrito y listar los resultados ordenados por el total de forma descendente.\n" +
+                    "18.-Teniendo en cuenta todos los usuarios, calcular el total gastado por cada usuario en todas sus compras y listar los resultados ordenados por el total de forma ascendente.\n"+
+                    "19.-salir");
+            opcion= scanner.nextInt();
+            scanner.nextLine();
+            switch (opcion){
+                case 1:
+                    break;
+                case 2:
+                    break;
+                case 3:
+                    break;
+                case 4:
+                    break;
+                case 5:
+                    break;
+                case 6:
+                    break;
+                case 7:
+                    break;
+                case 8:
+                    break;
+                case 9:
+                    break;
+                case 10:
+                    break;
+                case 11:
+                    break;
+                case 12:
+                    break;
+                case 13:
+                    break;
+                case 14:
+                    break;
+                case 15:
+                    break;
+                case 16:
+                    break;
+                case 17:
+                    break;
+                case 18:
+                    break;
+                case 19:
+                    System.out.println("Adios");
+                    break;
+                default:
+                    System.out.println("Numero no valido");
+
+            }
+        }
+
+    }
+}

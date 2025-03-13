@@ -1,0 +1,11 @@
+------------------------CONSULTA DEL EJERCICIO 2------------------------------
+for $videojuego in videojuegos/videojuego[id='1']
+return delete node $videojuego
+------------------------CONSULTA DEL EJERCICIO 3------------------------------
+for $videojuego in videojuegos/videojuego
+order by $videojuego /plataforma,$videojuego/titulo
+return $videojuego
+------------------------CONSULTA DEL EJERCICIO 4------------------------------
+for $videojuego in videojuegos/videojuego[edad_minima_recomendada<=6]
+return $videojuego
+------------------------CONSULTA DEL EJERCICIO 5------------------------------

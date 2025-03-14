@@ -6,11 +6,10 @@ import java.io.IOException;
 
 public class ConXml {
 
-    public static void remplazar(BaseXClient conexion,int id,String remplazo, String datoRemplazo){
+    public void remplazar(BaseXClient conexion,int id,String remplazo, String datoRemplazo){
         try {
-            conexion.execute("""
-                    for $id in /videojuegos/videojuego[id= '%d']
-                    return(replace value of node $id/%s with '%s')""".formatted(id,remplazo,datoRemplazo));
+            conexion.execute("for $id in /videojuegos/videojuego[id= '"+ id +"'] " +
+                    "return(replace value of node $id/"+remplazo+" with '"+datoRemplazo+"')");
 
         } catch (IOException e) {
             throw new RuntimeException(e);

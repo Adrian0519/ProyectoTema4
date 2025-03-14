@@ -1,3 +1,4 @@
+import ConsultasXml.ConXml;
 import org.basex.examples.api.BaseXClient;
 
 import java.io.IOException;
@@ -6,6 +7,7 @@ import java.util.Scanner;
 public class Main {
     public static void main(String[] args) {
         Scanner scanner=new Scanner(System.in);
+        ConXml conXml=new ConXml();
         int opcion=0;
         conexion();
         while (opcion!=19) {
@@ -36,23 +38,96 @@ public class Main {
                     int id=scanner.nextInt();
                     scanner.nextLine();
                     System.out.println("Dime el parametro que quieras remplazar");
-                    String opcionRemplazo= scanner.nextLine();
-                    System.out.println("Dime el valor que tendra ahora");
-                    String nuevoDato= scanner.nextLine();
+                    System.out.println("1-titulo" +
+                            "2-descripcion" +
+                            "3-precio" +
+                            "4-disponibilidad" +
+                            "5-genero" +
+                            "6-desarrollador" +
+                            "7-edad minima" +
+                            "8-plataforma" +
+                            "0-salir");
+                    int remplazoElegir= scanner.nextInt();
+                    scanner.nextLine();
+                    String valorElegido;
+                    String nuevoDato;
+                    switch (remplazoElegir){
+                        case 1:
+                            valorElegido="titulo";
+                            System.out.println("Dime el valor que tendra ahora");
+                            nuevoDato= scanner.nextLine();
+                            conXml.remplazar(conexion(),id,valorElegido,nuevoDato);
+                            break;
+                        case 2:
+                            valorElegido="descripcion";
+                            System.out.println("Dime el valor que tendra ahora");
+                            nuevoDato= scanner.nextLine();
+                            conXml.remplazar(conexion(),id,valorElegido,nuevoDato);
+                            break;
+                        case 3:
+                            valorElegido="precio";
+                            System.out.println("Dime el valor que tendra ahora");
+                            nuevoDato= scanner.nextLine();
+                            conXml.remplazar(conexion(),id,valorElegido,nuevoDato);
+                            break;
+                        case 4:
+                            valorElegido="disponibilidad";
+                            System.out.println("Dime el valor que tendra ahora");
+                            nuevoDato= scanner.nextLine();
+                            conXml.remplazar(conexion(),id,valorElegido,nuevoDato);
+                            break;
+                        case 5:
+                            valorElegido="genero";
+                            System.out.println("Dime el valor que tendra ahora");
+                            nuevoDato= scanner.nextLine();
+                            conXml.remplazar(conexion(),id,valorElegido,nuevoDato);
+                            break;
+                        case 6:
+                            valorElegido="desarrollador";
+                            System.out.println("Dime el valor que tendra ahora");
+                            nuevoDato= scanner.nextLine();
+                            conXml.remplazar(conexion(),id,valorElegido,nuevoDato);
+                            break;
+                        case 7:
+                            valorElegido="edad_minima_recomendada";
+                            System.out.println("Dime el valor que tendra ahora");
+                            nuevoDato= scanner.nextLine();
+                            conXml.remplazar(conexion(),id,valorElegido,nuevoDato);
+                            break;
+                        case 8:
+                            valorElegido="plataforma";
+                            System.out.println("Dime el valor que tendra ahora");
+                            nuevoDato= scanner.nextLine();
+                            conXml.remplazar(conexion(),id,valorElegido,nuevoDato);
+                            break;
+                        case 0:
+                            System.out.println("Adios");
+                            break;
+                        default:
+                            System.out.println("Dato no correcto");
+                            break;
+                    }
                     break;
                 case 2:
+                    System.out.println();
                     break;
                 case 3:
+                    System.out.println("");
                     break;
                 case 4:
+                    System.out.println("");
                     break;
                 case 5:
+                    System.out.println("");
                     break;
                 case 6:
+                    System.out.println("");
                     break;
                 case 7:
+                    System.out.println("");
                     break;
                 case 8:
+                    System.out.println("");
                     break;
                 case 9:
                     break;

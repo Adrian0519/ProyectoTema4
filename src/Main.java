@@ -9,6 +9,7 @@ public class Main {
         Scanner scanner=new Scanner(System.in);
         ConXml conXml=new ConXml();
         int opcion=0;
+        try (BaseXClient baseXClient=new BaseXClient("localhost",1984,"admin","abc123")){
         while (opcion!=19) {
             System.out.println("1.-Modificar el valor de un elemento de un XML según un ID.\n" +
                     "2.-Eliminar un videojuego según su ID.\n" +
@@ -55,49 +56,49 @@ public class Main {
                             valorElegido="titulo";
                             System.out.println("Dime el valor que tendra ahora");
                             nuevoDato= scanner.nextLine();
-                            conXml.remplazar(conexion(),id,valorElegido,nuevoDato);
+                            conXml.remplazar(baseXClient,id,valorElegido,nuevoDato);
                             break;
                         case 2:
                             valorElegido="descripcion";
                             System.out.println("Dime el valor que tendra ahora");
                             nuevoDato= scanner.nextLine();
-                            conXml.remplazar(conexion(),id,valorElegido,nuevoDato);
+                            conXml.remplazar(baseXClient,id,valorElegido,nuevoDato);
                             break;
                         case 3:
                             valorElegido="precio";
                             System.out.println("Dime el valor que tendra ahora");
                             nuevoDato= scanner.nextLine();
-                            conXml.remplazar(conexion(),id,valorElegido,nuevoDato);
+                            conXml.remplazar(baseXClient,id,valorElegido,nuevoDato);
                             break;
                         case 4:
                             valorElegido="disponibilidad";
                             System.out.println("Dime el valor que tendra ahora");
                             nuevoDato= scanner.nextLine();
-                            conXml.remplazar(conexion(),id,valorElegido,nuevoDato);
+                            conXml.remplazar(baseXClient,id,valorElegido,nuevoDato);
                             break;
                         case 5:
                             valorElegido="genero";
                             System.out.println("Dime el valor que tendra ahora");
                             nuevoDato= scanner.nextLine();
-                            conXml.remplazar(conexion(),id,valorElegido,nuevoDato);
+                            conXml.remplazar(baseXClient,id,valorElegido,nuevoDato);
                             break;
                         case 6:
                             valorElegido="desarrollador";
                             System.out.println("Dime el valor que tendra ahora");
                             nuevoDato= scanner.nextLine();
-                            conXml.remplazar(conexion(),id,valorElegido,nuevoDato);
+                            conXml.remplazar(baseXClient,id,valorElegido,nuevoDato);
                             break;
                         case 7:
                             valorElegido="edad_minima_recomendada";
                             System.out.println("Dime el valor que tendra ahora");
                             nuevoDato= scanner.nextLine();
-                            conXml.remplazar(conexion(),id,valorElegido,nuevoDato);
+                            conXml.remplazar(baseXClient,id,valorElegido,nuevoDato);
                             break;
                         case 8:
                             valorElegido="plataforma";
                             System.out.println("Dime el valor que tendra ahora");
                             nuevoDato= scanner.nextLine();
-                            conXml.remplazar(conexion(),id,valorElegido,nuevoDato);
+                            conXml.remplazar(baseXClient,id,valorElegido,nuevoDato);
                             break;
                         case 0:
                             System.out.println("Adios");
@@ -156,13 +157,21 @@ public class Main {
 
             }
         }
-    }
-    private static BaseXClient conexion(){
-        try (BaseXClient baseXClient=new BaseXClient("localhost",1984,"admin","abc123")){
-            baseXClient.execute("open videojuegos");
-            return baseXClient;
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
     }
+
+    /**
+     *   private static BaseXClient conexion(){
+     *         try (BaseXClient baseXClient=new BaseXClient("localhost",1984,"admin","abc123")){
+     *             baseXClient.execute("open videojuegos");
+     *             return baseXClient;
+     *         } catch (IOException e) {
+     *             throw new RuntimeException(e);
+     *         }
+     *     }
+     * @return
+     */
+
 }

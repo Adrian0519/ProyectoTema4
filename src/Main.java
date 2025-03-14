@@ -9,7 +9,6 @@ public class Main {
         Scanner scanner=new Scanner(System.in);
         ConXml conXml=new ConXml();
         int opcion=0;
-        conexion();
         while (opcion!=19) {
             System.out.println("1.-Modificar el valor de un elemento de un XML según un ID.\n" +
                     "2.-Eliminar un videojuego según su ID.\n" +

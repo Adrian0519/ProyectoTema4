@@ -1,0 +1,12 @@
+<component name="libraryTable">
+  <library name="baseXJar">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/src/jarNecesarios/baseXJar.jar!/" />
+      <root url="jar://$PROJECT_DIR$/src/jarNecesarios/mongo-java-driver-3.12.14.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://$PROJECT_DIR$/src/jarNecesarios/baseXJar.jar!/" />
+    </SOURCES>
+  </library>
+</component>

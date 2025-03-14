@@ -1,9 +1,13 @@
+import org.basex.examples.api.BaseXClient;
+
+import java.io.IOException;
 import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) {
         Scanner scanner=new Scanner(System.in);
         int opcion=0;
+        conexion();
         while (opcion!=19) {
             System.out.println("1.-Modificar el valor de un elemento de un XML según un ID.\n" +
                     "2.-Eliminar un videojuego según su ID.\n" +
@@ -28,6 +32,13 @@ public class Main {
             scanner.nextLine();
             switch (opcion){
                 case 1:
+                    System.out.println("Pasame el id");
+                    int id=scanner.nextInt();
+                    scanner.nextLine();
+                    System.out.println("Dime el parametro que quieras remplazar");
+                    String opcionRemplazo= scanner.nextLine();
+                    System.out.println("Dime el valor que tendra ahora");
+                    String nuevoDato= scanner.nextLine();
                     break;
                 case 2:
                     break;
@@ -71,6 +82,13 @@ public class Main {
 
             }
         }
-
+    }
+    private static BaseXClient conexion(){
+        try (BaseXClient baseXClient=new BaseXClient("localhost",1984,"admin","abc123")){
+            baseXClient.execute("open videojuegos");
+            return baseXClient;
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 }

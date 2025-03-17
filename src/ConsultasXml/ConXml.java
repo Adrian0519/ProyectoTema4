@@ -8,9 +8,12 @@ public class ConXml {
 
     public void remplazar(BaseXClient conexion,int id,String remplazo, String datoRemplazo){
         try {
-            String consulta=("for $id in db:get('videojuegos')/videojuegos/videojuego[id= '"+ id +"'] " +
-                    "return replace value of node $id/"+remplazo+" with '"+datoRemplazo+"'");
-            conexion.execute(consulta);
+            String consulta = String.format("""
+                for $v in db:get('videojuegos')//videojuegos/videojuego[id=%d]
+                return replace value of node $v/%s with '%s'
+            """, id, remplazo, datoRemplazo);
+            conexion.execute("xquery " + consulta);
+            System.out.println("Cambios aplicados");
         } catch (IOException e) {
             throw new RuntimeException(e);
         }

@@ -1,6 +1,3 @@
-------------------------CONSULTA DEL EJERCICIO 2------------------------------
-for $videojuego in videojuegos/videojuego[id='1']
-return delete node $videojuego
 ------------------------CONSULTA DEL EJERCICIO 3------------------------------
 for $videojuego in videojuegos/videojuego
 order by $videojuego /plataforma,$videojuego/titulo

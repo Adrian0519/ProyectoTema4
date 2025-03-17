@@ -55,6 +55,20 @@ public class ConXml {
         }
     }
 
+    public void videojuegosEdadMenor(int id){
+        try {
+            String consulta= String.format("""
+                    for $videojuego in /videojuegos/videojuego[edad_minima_recomendada<=%d]
+                    order by $videojuego/edad_minima_recomendada
+                    return $videojuego
+                    """,id);
+            String resultado=session.execute("xquery " + consulta);
+            System.out.println(resultado);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
     public ConXml() {
         try {
             BaseXClient baseXClient = new BaseXClient("localhost", 1984, "admin", "abc123");

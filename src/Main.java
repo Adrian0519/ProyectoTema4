@@ -117,7 +117,9 @@ public class Main {
                         conXml.filtrarVideojuegos();
                         break;
                     case 4:
-                        System.out.println("");
+                        System.out.println("Dime la edad minima que quieras");
+                        int edad= scanner.nextInt();
+                        conXml.videojuegosEdadMenor(edad);
                         break;
                     case 5:
                         System.out.println("");

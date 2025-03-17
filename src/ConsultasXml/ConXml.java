@@ -59,7 +59,7 @@ public class ConXml {
         try {
             String consulta= String.format("""
                     for $videojuego in /videojuegos/videojuego[edad_minima_recomendada<=%d]
-                    order by $videojuego/edad_minima_recomendada
+                    order by number ($videojuego/edad_minima_recomendada) ascending
                     return $videojuego
                     """,id);
             String resultado=session.execute("xquery " + consulta);

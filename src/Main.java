@@ -122,7 +122,7 @@ public class Main {
                         conXml.videojuegosEdadMenor(edad);
                         break;
                     case 5:
-                        System.out.println("");
+                        conXml.videojuegosBaratoPlataforma();
                         break;
                     case 6:
                         System.out.println("");

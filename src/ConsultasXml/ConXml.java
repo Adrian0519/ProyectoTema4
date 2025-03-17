@@ -69,6 +69,30 @@ public class ConXml {
         }
     }
 
+    public void videojuegosBaratoPlataforma(){
+        try {
+            String consulta=String.format("""
+                    for $videojuegoPlata in distinct-values(/videojuegos/videojuego/plataforma)
+                    let $juegosPlataforma := /videojuegos/videojuego[plataforma = $videojuegoPlata]
+                    let $videojuegoBarato :=\s
+                        for $juego in $juegosPlataforma
+                        let $precio := $juego/precio
+                        order by $precio ascending
+                        return $juego
+                    return
+                        <result>
+                           {$videojuegoPlata}
+                            <videojuegoMasBarato>{$videojuegoBarato[1]/titulo}</videojuegoMasBarato>
+                            <precio>{$videojuegoBarato[1]/precio}</precio>
+                        </result>
+                    """);
+            String resultado= session.execute("xquery " + consulta);
+            System.out.println(resultado);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
     public ConXml() {
         try {
             BaseXClient baseXClient = new BaseXClient("localhost", 1984, "admin", "abc123");

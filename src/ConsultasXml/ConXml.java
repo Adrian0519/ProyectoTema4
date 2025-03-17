@@ -93,6 +93,19 @@ public class ConXml {
         }
     }
 
+    public void buscarCadenaCaracteres(String cadena){
+        try {
+        String consulta=String.format("""
+                for $videojuegos in /videojuegos/videojuego[contains(lower-case(descripcion),"%s")] 
+                return $videojuegos
+                """,cadena);
+        String resultado= session.execute("xquery " + consulta);
+            System.out.println(resultado);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
     public ConXml() {
         try {
             BaseXClient baseXClient = new BaseXClient("localhost", 1984, "admin", "abc123");

@@ -2,6 +2,7 @@ import ConsultasXml.ConXml;
 import org.basex.examples.api.BaseXClient;
 
 import java.io.IOException;
+import java.util.Locale;
 import java.util.Scanner;
 
 public class Main {
@@ -125,7 +126,9 @@ public class Main {
                         conXml.videojuegosBaratoPlataforma();
                         break;
                     case 6:
-                        System.out.println("");
+                        System.out.println("Dime que quieres que contenga el videojuego en su descripcion");
+                        String cadenaBusqueda= scanner.nextLine().toLowerCase();
+                        conXml.buscarCadenaCaracteres(cadenaBusqueda);
                         break;
                     case 7:
                         System.out.println("");

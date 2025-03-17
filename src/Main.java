@@ -131,7 +131,7 @@ public class Main {
                         conXml.buscarCadenaCaracteres(cadenaBusqueda);
                         break;
                     case 7:
-                        System.out.println("");
+                        conXml.consultaJuegosPlataforma();
                         break;
                     case 8:
                         System.out.println("");

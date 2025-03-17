@@ -1,4 +1,11 @@
 ------------------------CONSULTA DEL EJERCICIO 4------------------------------
 for $videojuego in videojuegos/videojuego[edad_minima_recomendada<=6]
 return $videojuego
-------------------------CONSULTA DEL EJERCICIO 5------------------------------
+------------------------CONSULTA DEL EJERCICIO 7------------------------------
+for $plataforma in distinct-values(/videojuegos/videojuego/plataforma)
+let $CantidadJuegosPlataforma :=sum(/videojuegos/videojuego[plataforma=$plataforma]/disponibilidad)
+let $totalJuegos := sum(/videojuegos/videojuego/disponibilidad)
+let $PorcentajePlataforma:=
+round($CantidadJuegosPlataforma div $totalJuegos *100)
+order by $PorcentajePlataforma descending
+return concat($plataforma, ' - ', $PorcentajePlataforma , '%')

@@ -106,6 +106,24 @@ public class ConXml {
         }
     }
 
+    public void consultaJuegosPlataforma(){
+        try {
+            String consulta=(" for $plataforma in distinct-values(/videojuegos/videojuego/plataforma)\n" +
+                    "                     let $CantidadJuegosPlataforma :=sum(/videojuegos/videojuego[plataforma=$plataforma]/disponibilidad)\n" +
+                    "                     let $totalJuegos := sum(/videojuegos/videojuego/disponibilidad)\n" +
+                    "                     let $PorcentajePlataforma:=\n" +
+                    "                     round($CantidadJuegosPlataforma div $totalJuegos *100)\n" +
+                    "                     order by $PorcentajePlataforma descending\n" +
+                    "                     return concat($plataforma, ' - ',$CantidadJuegosPlataforma,' - ', $PorcentajePlataforma , '%')");
+
+
+            String resultado= session.execute("xquery " +consulta);
+            System.out.println(resultado);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
     public ConXml() {
         try {
             BaseXClient baseXClient = new BaseXClient("localhost", 1984, "admin", "abc123");

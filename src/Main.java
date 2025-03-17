@@ -109,7 +109,10 @@ public class Main {
                     }
                     break;
                 case 2:
-                    System.out.println();
+                    System.out.println("Inserta la id que deseas eliminar");
+                    int idEliminar=scanner.nextInt();
+                    scanner.nextLine();
+                    conXml.eliminarXID(baseXClient,idEliminar);
                     break;
                 case 3:
                     System.out.println("");

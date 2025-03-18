@@ -34,7 +34,7 @@ public class Main {
                         "16.-Mostrar las compras del usuario, incluyendo la información de la fecha de cada compra.\n" +
                         "17.-Teniendo en cuenta todos los usuarios, calcular el coste de cada carrito y listar los resultados ordenados por el total de forma descendente.\n" +
                         "18.-Teniendo en cuenta todos los usuarios, calcular el total gastado por cada usuario en todas sus compras y listar los resultados ordenados por el total de forma ascendente.\n" +
-                        "19.-salir");
+                        "19.-Salir");
                 opcion = scanner.nextInt();
                 scanner.nextLine();
                 switch (opcion) {
@@ -154,7 +154,7 @@ public class Main {
                         consultasJson.crearUsuario(correoRegistro,usuarioRegistro,edadRegistro,direccion);
                         break;
                     case 10:
-
+                        consultasJson.comprobarUsuario();
                         break;
                     case 11:
                         break;

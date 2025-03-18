@@ -8,6 +8,7 @@ import com.mongodb.client.model.Filters;
 import org.bson.Document;
 
 
+import java.util.Scanner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -55,5 +56,16 @@ public class ConsultasJson {
 
     }
 
-
+    public String comprobarUsuario(){
+        Scanner scanner=new Scanner(System.in);
+        System.out.println("Dime tu correo ");
+        String correo= scanner.nextLine();
+        MongoCollection<Document>collectionUsuarios= mongoDatabase.getCollection("usuarios");
+        if (collectionUsuarios.find(Filters.eq("correo",correo)).first()!=null){
+            System.out.println("El correo ya esta registrado");
+           return correo;
+        }
+        System.out.println("El correo no es valido");
+        return null;
+    }
 }

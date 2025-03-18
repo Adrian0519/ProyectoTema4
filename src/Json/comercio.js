@@ -26,13 +26,11 @@ db.carritos.insertMany([
     "_id": "cliente1@example.com",
     "productos": [
       {
-        "videojuego_id": 4,
         "nombre": "EA Sports FC 25",
         "cantidad": 1,
         "precio_unitario": 69.99
       },
       {
-        "videojuego_id": 1,
         "nombre": "The Legend of Zelda: Breath of the Wild",
         "cantidad": 2,
         "precio_unitario": 59.99
@@ -43,13 +41,11 @@ db.carritos.insertMany([
     "_id": "cliente2@example.com",
     "productos": [
       {
-        "videojuego_id": 8,
         "nombre": "Elden Ring",
         "cantidad": 1,
         "precio_unitario": 59.99
       },
       {
-        "videojuego_id": 3,
         "nombre": "Cyberpunk 2077",
         "cantidad": 1,
         "precio_unitario": 49.99
@@ -60,13 +56,11 @@ db.carritos.insertMany([
     "_id": "cliente3@example.com",
     "productos": [
       {
-        "videojuego_id": 9,
         "nombre": "Minecraft",
         "cantidad": 2,
         "precio_unitario": 29.99
       },
       {
-        "videojuego_id": 12,
         "nombre": "Horizon Forbidden West",
         "cantidad": 1,
         "precio_unitario": 69.99
@@ -79,13 +73,11 @@ db.compras.insertMany([
     "_id": "cliente1@example.com",
     "videojuegos": [
       {
-        "videojuego_id": 4,
         "nombre": "EA Sports FC 25",
         "cantidad": 99,
         "precio_unitario": 69.99
       },
       {
-        "videojuego_id": 8,
         "nombre": "Elden Ring",
         "cantidad": 3,
         "precio_unitario": 59.99
@@ -117,7 +109,6 @@ db.compras.insertMany([
      "_id": "cliente3@example.com",
     "videojuegos": [
       {
-        "videojuego_id": 9,
         "nombre": "Minecraft",
         "cantidad": 3,
         "precio_unitario": 29.99

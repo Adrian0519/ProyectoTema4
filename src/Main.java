@@ -13,6 +13,7 @@ public class Main {
         Scanner scanner = new Scanner(System.in);
         ConXml conXml = new ConXml();
         mongoDatabase= ConsultasJson.getConexion();
+        ConsultasJson consultasJson=new ConsultasJson();
         int opcion = 0;
             while (opcion != 19) {
                 System.out.println("1.-Modificar el valor de un elemento de un XML según un ID.\n" +
@@ -141,9 +142,19 @@ public class Main {
                         conXml.consutaPrecioTotal();
                         break;
                     case 9:
-
+                        System.out.println("Dime el nombre de usuario");
+                        String usuarioRegistro= scanner.nextLine();
+                        System.out.println("Dime un correo para insertarlo");
+                        String correoRegistro= scanner.nextLine();
+                        System.out.println("Dime la edad");
+                        int edadRegistro=scanner.nextInt();
+                        scanner.nextLine();
+                        System.out.println("Por ultimo dime la direccion");
+                        String direccion= scanner.nextLine();
+                        consultasJson.crearUsuario(correoRegistro,usuarioRegistro,edadRegistro,direccion);
                         break;
                     case 10:
+
                         break;
                     case 11:
                         break;

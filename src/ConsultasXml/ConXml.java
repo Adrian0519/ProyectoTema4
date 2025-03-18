@@ -28,7 +28,7 @@ public class ConXml {
                 return delete node $videojuegos
                 """, id);
             session.execute("xquery " + consulta);
-            System.out.println("Juego eliminado");
+            System.out.println("Juego eliminado exitosamente");
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -55,13 +55,13 @@ public class ConXml {
         }
     }
 
-    public void videojuegosEdadMenor(int id){
+    public void videojuegosEdadMenor(int edad){
         try {
             String consulta= String.format("""
                     for $videojuego in /videojuegos/videojuego[edad_minima_recomendada<=%d]
                     order by number ($videojuego/edad_minima_recomendada) ascending
                     return $videojuego
-                    """,id);
+                    """,edad);
             String resultado=session.execute("xquery " + consulta);
             System.out.println(resultado);
         } catch (Exception e) {
@@ -131,7 +131,7 @@ public class ConXml {
                     "return (round($total))");
 
             String resultado= session.execute("xquery " +consulta);
-            System.out.println(resultado);
+            System.out.println(resultado + "euros");
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

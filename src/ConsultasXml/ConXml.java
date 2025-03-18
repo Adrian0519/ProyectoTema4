@@ -124,6 +124,19 @@ public class ConXml {
         }
     }
 
+    public void consutaPrecioTotal(){
+        try {
+            String consulta=("let $total :=sum(for $videojuego in /videojuegos/videojuego\n" +
+                    "return $videojuego/precio * $videojuego/disponibilidad)\n" +
+                    "return (round($total))");
+
+            String resultado= session.execute("xquery " +consulta);
+            System.out.println(resultado);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
     public ConXml() {
         try {
             BaseXClient baseXClient = new BaseXClient("localhost", 1984, "admin", "abc123");

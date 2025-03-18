@@ -134,7 +134,7 @@ public class Main {
                         conXml.consultaJuegosPlataforma();
                         break;
                     case 8:
-                        System.out.println("");
+                        conXml.consutaPrecioTotal();
                         break;
                     case 9:
                         break;

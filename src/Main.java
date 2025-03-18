@@ -1,4 +1,6 @@
+import ConsultasJson.ConsultasJson;
 import ConsultasXml.ConXml;
+import com.mongodb.client.MongoDatabase;
 import org.basex.examples.api.BaseXClient;
 
 import java.io.IOException;
@@ -6,9 +8,11 @@ import java.util.Locale;
 import java.util.Scanner;
 
 public class Main {
+    private static MongoDatabase mongoDatabase;
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
         ConXml conXml = new ConXml();
+        mongoDatabase= ConsultasJson.getConexion();
         int opcion = 0;
             while (opcion != 19) {
                 System.out.println("1.-Modificar el valor de un elemento de un XML según un ID.\n" +
@@ -137,6 +141,7 @@ public class Main {
                         conXml.consutaPrecioTotal();
                         break;
                     case 9:
+
                         break;
                     case 10:
                         break;
@@ -161,9 +166,10 @@ public class Main {
                         break;
                     default:
                         System.out.println("Numero no valido");
-
+                        break;
                 }
             }
+            ConsultasJson.closeConection();
         }
     }
 

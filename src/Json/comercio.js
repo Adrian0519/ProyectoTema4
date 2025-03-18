@@ -24,8 +24,7 @@ db.usuarios.insertMany([
 
 db.carritos.insertMany([
   {
-    "_id": ObjectId("66123456789abcdef0123456"),
-    "usuario_id": "cliente1@example.com",
+    "_id": "cliente1@example.com",
     "productos": [
       {
         "videojuego_id": 4,
@@ -42,8 +41,7 @@ db.carritos.insertMany([
     ]
   },
   {
-    "_id": ObjectId("66123456789abcdef0123457"),
-    "usuario_id": "cliente2@example.com",
+    "_id": "cliente2@example.com",
     "productos": [
       {
         "videojuego_id": 8,
@@ -60,8 +58,7 @@ db.carritos.insertMany([
     ]
   },
   {
-    "_id": ObjectId("66123456789abcdef0123458"),
-    "usuario_id": "cliente3@example.com",
+    "_id": "cliente3@example.com",
     "productos": [
       {
         "videojuego_id": 9,
@@ -81,8 +78,7 @@ db.carritos.insertMany([
 
 db.compras.insertMany([
   {
-    "_id": ObjectId("67a92442905d945bce7c32d6"),
-    "usuario_id": "cliente1@example.com",
+    "_id": "cliente1@example.com",
     "videojuegos": [
       {
         "videojuego_id": 4,
@@ -101,8 +97,7 @@ db.compras.insertMany([
     "fecha_compra": ISODate("2025-01-01T23:00:00.000Z")
   },
   {
-    "_id": ObjectId("67a92442905d945bce7c32d7"),
-    "usuario_id": "cliente2@example.com",
+    "_id": "cliente2@example.com",
     "videojuegos": [
       {
         "videojuego_id": 3,
@@ -121,8 +116,7 @@ db.compras.insertMany([
     "fecha_compra": ISODate("2025-02-15T12:30:00.000Z")
   },
   {
-    "_id": ObjectId("67a92442905d945bce7c32d8"),
-    "usuario_id": "cliente3@example.com",
+     "_id": "cliente3@example.com",
     "videojuegos": [
       {
         "videojuego_id": 9,

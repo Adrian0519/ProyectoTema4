@@ -21,7 +21,6 @@ db.usuarios.insertMany([
     "direccion": "Dirección Cliente 3"
   }
 ]);
-
 db.carritos.insertMany([
   {
     "_id": "cliente1@example.com",
@@ -75,7 +74,6 @@ db.carritos.insertMany([
     ]
   }
 ]);
-
 db.compras.insertMany([
   {
     "_id": "cliente1@example.com",

@@ -9,6 +9,7 @@ import org.bson.Document;
 
 
 import java.util.Scanner;
+import java.util.logging.Filter;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -63,15 +64,26 @@ public class ConsultasJson {
         MongoCollection<Document>collectionUsuarios= mongoDatabase.getCollection("usuarios");
         Document documenCorreos=collectionUsuarios.find(Filters.eq("_id",correo)).first();
         if (documenCorreos!=null){
-            System.out.println("El correo ya esta registrado");
+            System.out.println("El correo pertenece a una cuenta");
             return correo;
         }
-        System.out.println("El correo no es valido");
+        System.out.println("El correo no pertenece a ninguna cuenta");
         return null;
     }
 
     public void borrarUsuario(){
       String correo=comprobarUsuario();
-        System.out.println(correo);
+      if (correo==null){
+          return;
+      }else {
+          MongoCollection<Document>collectionUsuarios=mongoDatabase.getCollection("usuarios");
+          MongoCollection<Document>collectionCarrito=mongoDatabase.getCollection("carritos");
+          Document documentCorreos=collectionUsuarios.find(Filters.eq("_id",correo)).first();
+          if (documentCorreos!=null){
+              collectionUsuarios.deleteOne(Filters.eq("_id",correo));
+              collectionCarrito.deleteOne(Filters.eq("_id",correo));
+              System.out.println("Eliminado de forma exitosa");
+          }
+      }
     }
 }

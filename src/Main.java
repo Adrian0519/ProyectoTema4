@@ -157,6 +157,7 @@ public class Main {
                         consultasJson.comprobarUsuario();
                         break;
                     case 11:
+                        consultasJson.borrarUsuario();
                         break;
                     case 12:
                         break;

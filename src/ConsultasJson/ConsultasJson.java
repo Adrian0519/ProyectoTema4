@@ -61,11 +61,17 @@ public class ConsultasJson {
         System.out.println("Dime tu correo ");
         String correo= scanner.nextLine();
         MongoCollection<Document>collectionUsuarios= mongoDatabase.getCollection("usuarios");
-        if (collectionUsuarios.find(Filters.eq("correo",correo)).first()!=null){
+        Document documenCorreos=collectionUsuarios.find(Filters.eq("_id",correo)).first();
+        if (documenCorreos!=null){
             System.out.println("El correo ya esta registrado");
-           return correo;
+            return correo;
         }
         System.out.println("El correo no es valido");
         return null;
+    }
+
+    public void borrarUsuario(){
+      String correo=comprobarUsuario();
+        System.out.println(correo);
     }
 }

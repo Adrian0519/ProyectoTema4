@@ -86,4 +86,13 @@ public class ConsultasJson {
           }
       }
     }
+
+    public void modificar(){
+    String correo=comprobarUsuario();
+    if (correo==null){
+        return;
+    }else {
+
+    }
+    }
 }

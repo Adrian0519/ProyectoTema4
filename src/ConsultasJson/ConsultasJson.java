@@ -18,7 +18,7 @@ import java.util.logging.Logger;
 public class ConsultasJson {
     private static MongoClient session= null;
     private static MongoDatabase mongoDatabase=null;
-    private static ConXml conXml=null;
+    private static Scanner scanner=new Scanner(System.in);
 
     public ConsultasJson() {
         try {
@@ -104,14 +104,19 @@ public class ConsultasJson {
         if (correo==null){
             return;
         }else {
+            String videojuego;
             MongoCollection<Document>collectionUsuarios= mongoDatabase.getCollection("usuarios");
             MongoCollection<Document>collectionCarrito=mongoDatabase.getCollection("carritos");
             Document documentCuenta=collectionUsuarios.find(Filters.eq("_id",correo)).first();
             int edad=documentCuenta.getInteger("edad");
-            conXml.videojuegosEdadMenor(edad);
+            System.out.println(edad);
             Document documentCarritoCuenta=collectionCarrito.find(Filters.eq("_id",correo)).first();
             if (documentCarritoCuenta==null){
-                System.out.println("No existe tengo que crearte un carrito");
+                Document nuevoCarrito=new Document()
+                        .append("_id",correo);
+                collectionCarrito.insertOne(nuevoCarrito);
+                System.out.println("Que juego quieres agregar al carrito");
+                videojuego=
             }else {
                 System.out.println(documentCarritoCuenta);
             }

@@ -1,5 +1,6 @@
 package ConsultasJson;
 
+import ConsultasXml.ConXml;
 import com.mongodb.client.MongoClient;
 import com.mongodb.client.MongoClients;
 import com.mongodb.client.MongoCollection;
@@ -8,6 +9,7 @@ import com.mongodb.client.model.Filters;
 import org.bson.Document;
 
 
+import java.util.ArrayList;
 import java.util.Scanner;
 import java.util.logging.Filter;
 import java.util.logging.Level;
@@ -16,6 +18,7 @@ import java.util.logging.Logger;
 public class ConsultasJson {
     private static MongoClient session= null;
     private static MongoDatabase mongoDatabase=null;
+    private static ConXml conXml=null;
 
     public ConsultasJson() {
         try {
@@ -94,5 +97,24 @@ public class ConsultasJson {
     }else {
 
     }
+    }
+
+    public void AgregarAlcarrito(){
+        String correo=comprobarUsuario();
+        if (correo==null){
+            return;
+        }else {
+            MongoCollection<Document>collectionUsuarios= mongoDatabase.getCollection("usuarios");
+            MongoCollection<Document>collectionCarrito=mongoDatabase.getCollection("carritos");
+            Document documentCuenta=collectionUsuarios.find(Filters.eq("_id",correo)).first();
+            int edad=documentCuenta.getInteger("edad");
+            conXml.videojuegosEdadMenor(edad);
+            Document documentCarritoCuenta=collectionCarrito.find(Filters.eq("_id",correo)).first();
+            if (documentCarritoCuenta==null){
+                System.out.println("No existe tengo que crearte un carrito");
+            }else {
+                System.out.println(documentCarritoCuenta);
+            }
+        }
     }
 }

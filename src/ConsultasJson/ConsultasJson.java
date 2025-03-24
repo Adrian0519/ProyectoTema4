@@ -19,6 +19,8 @@ public class ConsultasJson {
     private static MongoClient session= null;
     private static MongoDatabase mongoDatabase=null;
     private static Scanner scanner=new Scanner(System.in);
+    ConXml conXml=new ConXml();
+    String correo = null;
 
     public ConsultasJson() {
         try {
@@ -60,38 +62,37 @@ public class ConsultasJson {
 
     }
 
-    public String comprobarUsuario(){
+    public void comprobarUsuario(){
         Scanner scanner=new Scanner(System.in);
         System.out.println("Dime tu correo ");
-        String correo= scanner.nextLine();
+        correo= scanner.nextLine();
         MongoCollection<Document>collectionUsuarios= mongoDatabase.getCollection("usuarios");
         Document documenCorreos=collectionUsuarios.find(Filters.eq("_id",correo)).first();
         if (documenCorreos!=null){
-            System.out.println("El correo pertenece a una cuenta");
-            return correo;
+            System.out.println("Se inicio sesion exitosamente");
+        }else {
+            System.out.println("El correo no pertenece a ninguna cuenta");
         }
-        System.out.println("El correo no pertenece a ninguna cuenta");
-        return null;
     }
 
     public void borrarUsuario(){
-      String correo=comprobarUsuario();
-      if (correo==null){
-          return;
-      }else {
-          MongoCollection<Document>collectionUsuarios=mongoDatabase.getCollection("usuarios");
-          MongoCollection<Document>collectionCarrito=mongoDatabase.getCollection("carritos");
-          Document documentCorreos=collectionUsuarios.find(Filters.eq("_id",correo)).first();
-          if (documentCorreos!=null){
-              collectionUsuarios.deleteOne(Filters.eq("_id",correo));
-              collectionCarrito.deleteOne(Filters.eq("_id",correo));
-              System.out.println("Eliminado de forma exitosa");
-          }
+      if (correo == null){
+          System.out.println("tienes que iniciar sesion");
+          comprobarUsuario();
       }
+      MongoCollection<Document>collectionUsuarios=mongoDatabase.getCollection("usuarios");
+      MongoCollection<Document>collectionCarrito=mongoDatabase.getCollection("carritos");
+      Document documentCorreos=collectionUsuarios.find(Filters.eq("_id",correo)).first();
+      if (documentCorreos!=null){
+          collectionUsuarios.deleteOne(Filters.eq("_id",correo));
+          collectionCarrito.deleteOne(Filters.eq("_id",correo));
+          System.out.println("Eliminado de forma exitosa");
+      }
+      correo = null;
     }
 
     public void modificar(){
-    String correo=comprobarUsuario();
+    comprobarUsuario();
     if (correo==null){
         return;
     }else {
@@ -100,7 +101,7 @@ public class ConsultasJson {
     }
 
     public void AgregarAlcarrito(){
-        String correo=comprobarUsuario();
+        comprobarUsuario();
         if (correo==null){
             return;
         }else {
@@ -110,13 +111,13 @@ public class ConsultasJson {
             Document documentCuenta=collectionUsuarios.find(Filters.eq("_id",correo)).first();
             int edad=documentCuenta.getInteger("edad");
             System.out.println(edad);
+            conXml.videojuegosEdadMenor(edad);
             Document documentCarritoCuenta=collectionCarrito.find(Filters.eq("_id",correo)).first();
             if (documentCarritoCuenta==null){
                 Document nuevoCarrito=new Document()
                         .append("_id",correo);
                 collectionCarrito.insertOne(nuevoCarrito);
                 System.out.println("Que juego quieres agregar al carrito");
-                videojuego=
             }else {
                 System.out.println(documentCarritoCuenta);
             }

@@ -171,6 +171,7 @@ public class Main {
                         consultasJson.AgregarAlcarrito();
                         break;
                     case 15:
+                        consultasJson.mostrarCarro();
                         break;
                     case 16:
                         break;

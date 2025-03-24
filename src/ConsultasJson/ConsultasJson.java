@@ -99,7 +99,7 @@ public class ConsultasJson {
 
     }
     }
-
+//Todo acabar esta cosa
     public void AgregarAlcarrito(){
         comprobarUsuario();
         if (correo==null){
@@ -122,5 +122,14 @@ public class ConsultasJson {
                 System.out.println(documentCarritoCuenta);
             }
         }
+    }
+    public void mostrarCarro(){
+        if (correo == null){
+            System.out.println("tienes que iniciar sesion");
+            comprobarUsuario();
+        }
+        MongoCollection<Document>mongoCollection=mongoDatabase.getCollection("carritos");
+        Document document=mongoCollection.find(Filters.eq("_id",correo)).first();
+        System.out.println(document);
     }
 }

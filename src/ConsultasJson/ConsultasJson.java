@@ -132,4 +132,14 @@ public class ConsultasJson {
         Document document=mongoCollection.find(Filters.eq("_id",correo)).first();
         System.out.println(document);
     }
+
+    public void mostrarCompras(){
+        if (correo == null){
+            System.out.println("tienes que iniciar sesion");
+            comprobarUsuario();
+        }
+        MongoCollection<Document>mongoCollection=mongoDatabase.getCollection("compras");
+        Document document = mongoCollection.find(Filters.eq("_id",correo)).first();
+        System.out.println(document);
+    }
 }

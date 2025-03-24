@@ -174,6 +174,7 @@ public class Main {
                         consultasJson.mostrarCarro();
                         break;
                     case 16:
+                        consultasJson.mostrarCompras();
                         break;
                     case 17:
                         break;

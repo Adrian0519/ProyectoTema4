@@ -49,7 +49,7 @@ public class ConsultasJson {
 
     public void  crearUsuario(String correo,String nombre, int edad, String direccion){
         MongoCollection<Document>coleccionUsuarios=mongoDatabase.getCollection("usuarios");
-        if (coleccionUsuarios.find(Filters.eq("correo",correo)).first()!=null){
+        if (coleccionUsuarios.find(Filters.eq("email",correo)).first()!=null){
             System.out.println("El correo ya esta registrado");
             return;
         }
@@ -62,17 +62,17 @@ public class ConsultasJson {
         System.out.println("Se inserto correctamente el usuario " + nombre);
 
     }
-
+//Si existe y le cambias el correo peta.
     public void comprobarUsuario(){
-        Scanner scanner=new Scanner(System.in);
         System.out.println("Dime tu correo ");
         correo= scanner.nextLine();
         MongoCollection<Document>collectionUsuarios= mongoDatabase.getCollection("usuarios");
-        Document documenCorreos=collectionUsuarios.find(Filters.eq("_id",correo)).first();
+        Document documenCorreos=collectionUsuarios.find(Filters.eq("email",correo)).first();
         if (documenCorreos!=null){
             System.out.println("Se inicio sesion exitosamente");
         }else {
             System.out.println("El correo no pertenece a ninguna cuenta");
+            correo=null;
         }
     }
 
@@ -80,13 +80,15 @@ public class ConsultasJson {
       if (correo == null){
           System.out.println("tienes que iniciar sesion");
           comprobarUsuario();
+          return;
       }
       MongoCollection<Document>collectionUsuarios=mongoDatabase.getCollection("usuarios");
       MongoCollection<Document>collectionCarrito=mongoDatabase.getCollection("carritos");
-      Document documentCorreos=collectionUsuarios.find(Filters.eq("_id",correo)).first();
+      Document documentCorreos=collectionUsuarios.find(Filters.eq("email",correo)).first();
+      String id= documentCorreos.getString("_id");
       if (documentCorreos!=null){
-          collectionUsuarios.deleteOne(Filters.eq("_id",correo));
-          collectionCarrito.deleteOne(Filters.eq("_id",correo));
+          collectionUsuarios.deleteOne(Filters.eq("email",correo));
+          collectionCarrito.deleteOne(Filters.eq("_id",id));
           System.out.println("Eliminado de forma exitosa");
       }
       correo = null;
@@ -96,30 +98,72 @@ public class ConsultasJson {
         if (correo == null){
             System.out.println("tienes que iniciar sesion");
             comprobarUsuario();
-        }else {
-            System.out.println("Dime el nuevo valor");
+            return;
+        }
+            String campo, valor;
+            int pick, edad;
+            edad=0;
+            valor="";
+            System.out.println("1.-nombre" +
+                    "2.-edad  " +
+                    "3.-direccion  " +
+                    "4.-correo  " +
+                    "5.-cancelar  ");
+            pick=scanner.nextInt();
+            scanner.nextLine();
+            switch (pick){
+                case 1:
+                    campo="nombre";
+                    System.out.println("Introduzca el nombre");
+                    valor=scanner.nextLine();
+                    break;
+                case 2:
+                    campo="edad";
+                    System.out.println("Introduzca la edad");
+                    edad=scanner.nextInt();
+                    scanner.nextLine();
+                    break;
+                case 3:
+                    campo="direccion";
+                    System.out.println("Introduzca la direccion");
+                    valor=scanner.nextLine();
+                    break;
+                case 4:
+                    campo="email";
+                    System.out.println("Introduzca el mail");
+                    valor=scanner.nextLine();
+                    break;
+                case 5:
+                    System.out.println("Operacion cancelada");
+                    return;
+                default:
+                    System.out.println("Dato incorrecto");
+                    return;
+            }
             MongoCollection<Document>collectionListaUsuarios=mongoDatabase.getCollection("usuarios");
-            Document documentCorreo=collectionListaUsuarios.find(Filters.eq("_id",correo)).first();
             if (campo.equalsIgnoreCase("edad")){
-                int edad=scanner.nextInt();
-                // collectionListaUsuarios.updateOne(Filters.eq("_id",correo), Updates.set(campo,edad));
-                Document documentoFiltro = new Document(campo,edad);
-                Document documentoActualizacion = new Document("$set", new Document(campo, edad));
-                coleccion.updateOne(documentoFiltro, documentoActualizacion);
-            }else{
-                String valor=scanner.nextLine();
-                collectionListaUsuarios.updateOne(Filters.eq("_id",correo), Updates.set(campo,valor));
+                collectionListaUsuarios.updateOne(Filters.eq("email",correo), Updates.set(campo,edad));
+                System.out.println("Se actualizo la edad  ");
+
+            }
+            else if (campo.equalsIgnoreCase("email")){
+            collectionListaUsuarios.updateOne(Filters.eq("email",correo), Updates.set(campo,valor));
+            System.out.println("Se actualizo el correo, se cerrara la sesion por seguridad");
+            correo=null;
+            }
+            else{
+                collectionListaUsuarios.updateOne(Filters.eq("email",correo), Updates.set(campo,valor));
+                System.out.println("Se actualizo el campo "+ campo);
             }
 
         }
-    }
 //Todo acabar esta cosa
     public void AgregarAlcarrito(){
-        comprobarUsuario();
         if (correo == null){
             System.out.println("tienes que iniciar sesion");
             comprobarUsuario();
-        }else {
+            return;
+        }
             String videojuego;
             MongoCollection<Document>collectionUsuarios= mongoDatabase.getCollection("usuarios");
             MongoCollection<Document>collectionCarrito=mongoDatabase.getCollection("carritos");
@@ -136,12 +180,12 @@ public class ConsultasJson {
             }else {
                 System.out.println(documentCarritoCuenta);
             }
-        }
     }
     public void mostrarCarro(){
         if (correo == null){
             System.out.println("tienes que iniciar sesion");
             comprobarUsuario();
+            return;
         }
         MongoCollection<Document>mongoCollection=mongoDatabase.getCollection("carritos");
         Document document=mongoCollection.find(Filters.eq("_id",correo)).first();
@@ -152,6 +196,7 @@ public class ConsultasJson {
         if (correo == null){
             System.out.println("tienes que iniciar sesion");
             comprobarUsuario();
+            return;
         }
         MongoCollection<Document>mongoCollection=mongoDatabase.getCollection("compras");
         Document document = mongoCollection.find(Filters.eq("_id",correo)).first();

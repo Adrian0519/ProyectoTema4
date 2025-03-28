@@ -160,9 +160,7 @@ public class Main {
                         consultasJson.borrarUsuario();
                         break;
                     case 12:
-                        System.out.println("1.-nombre" +
-                                "2.-edad" +
-                                "3.-direccion");
+                        consultasJson.modificar();
                         break;
                     case 13:
 

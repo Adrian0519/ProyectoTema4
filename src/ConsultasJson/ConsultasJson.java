@@ -6,6 +6,7 @@ import com.mongodb.client.MongoClients;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
 import com.mongodb.client.model.Filters;
+import com.mongodb.client.model.Updates;
 import org.bson.Document;
 
 
@@ -92,18 +93,32 @@ public class ConsultasJson {
     }
 
     public void modificar(){
-    comprobarUsuario();
-    if (correo==null){
-        return;
-    }else {
+        if (correo == null){
+            System.out.println("tienes que iniciar sesion");
+            comprobarUsuario();
+        }else {
+            System.out.println("Dime el nuevo valor");
+            MongoCollection<Document>collectionListaUsuarios=mongoDatabase.getCollection("usuarios");
+            Document documentCorreo=collectionListaUsuarios.find(Filters.eq("_id",correo)).first();
+            if (campo.equalsIgnoreCase("edad")){
+                int edad=scanner.nextInt();
+                // collectionListaUsuarios.updateOne(Filters.eq("_id",correo), Updates.set(campo,edad));
+                Document documentoFiltro = new Document(campo,edad);
+                Document documentoActualizacion = new Document("$set", new Document(campo, edad));
+                coleccion.updateOne(documentoFiltro, documentoActualizacion);
+            }else{
+                String valor=scanner.nextLine();
+                collectionListaUsuarios.updateOne(Filters.eq("_id",correo), Updates.set(campo,valor));
+            }
 
-    }
+        }
     }
 //Todo acabar esta cosa
     public void AgregarAlcarrito(){
         comprobarUsuario();
-        if (correo==null){
-            return;
+        if (correo == null){
+            System.out.println("tienes que iniciar sesion");
+            comprobarUsuario();
         }else {
             String videojuego;
             MongoCollection<Document>collectionUsuarios= mongoDatabase.getCollection("usuarios");

@@ -283,10 +283,47 @@ public class ConsultasJson {
                 new Document("$push", new Document("videojuegos", nuevaCompra)),
                 new UpdateOptions().upsert(true) // Si el documento no existe, lo crea
         );
-        
+
         carritos.deleteOne(Filters.eq("_id", id));
 
         System.out.println("Su compra se realizó exitosamente");
     }
+
+    public void mostrarCosteDCarritos() {
+        MongoCollection<Document> mongoCollection = mongoDatabase.getCollection("carritos");
+
+        ArrayList<Document> carritosList = mongoCollection.find().into(new ArrayList<>());
+
+        for (Document carrito : carritosList) {
+            double totalCarrito = 0;
+
+            ArrayList<Document> productos = (ArrayList<Document>) carrito.get("productos");
+
+            if (productos != null) {
+                for (Document producto : productos) {
+                    double precio = producto.getDouble("precio_unitario");
+                    int cantidad = producto.getInteger("cantidad");
+                    totalCarrito += precio * cantidad;
+                }
+            }
+
+            carrito.append("totalCarrito", totalCarrito);
+        }
+
+        // Ordenar carritos de mayor a menor por "totalCarrito"
+        carritosList.sort((c1, c2) -> Double.compare(c2.getDouble("totalCarrito"), c1.getDouble("totalCarrito")));
+
+        // Mostrar los carritos ordenados
+        for (Document carrito : carritosList) {
+            System.out.println("Carrito de id_usuario " + carrito.getString("_id") +
+                    " tiene un coste total de: " + carrito.getDouble("totalCarrito"));
+        }
+    }
+
+
+
+
+
+
 
 }

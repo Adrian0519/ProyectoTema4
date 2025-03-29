@@ -9,7 +9,7 @@ import java.util.Scanner;
 
 public class Main {
     private static MongoDatabase mongoDatabase;
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
         Scanner scanner = new Scanner(System.in);
         ConXml conXml = new ConXml();
         mongoDatabase= ConsultasJson.getConexion();
@@ -163,13 +163,13 @@ public class Main {
                         consultasJson.modificar();
                         break;
                     case 13:
-
+                        consultasJson.AgregarAlCarrito();
                         break;
                     case 14:
-                        consultasJson.AgregarAlcarrito();
+                        consultasJson.mostrarCarro();
                         break;
                     case 15:
-                        consultasJson.mostrarCarro();
+                        consultasJson.RealizarCompra();
                         break;
                     case 16:
                         consultasJson.mostrarCompras();

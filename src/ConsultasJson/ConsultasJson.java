@@ -1,16 +1,22 @@
 package ConsultasJson;
 
 import ConsultasXml.ConXml;
+import Objetos.Videojuegos;
 import com.mongodb.client.MongoClient;
 import com.mongodb.client.MongoClients;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
 import com.mongodb.client.model.Filters;
+import com.mongodb.client.model.UpdateOptions;
 import com.mongodb.client.model.Updates;
+import org.basex.BaseX;
+import org.basex.examples.api.BaseXClient;
 import org.bson.Document;
 
 
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Scanner;
 import java.util.logging.Filter;
 import java.util.logging.Level;
@@ -20,9 +26,8 @@ public class ConsultasJson {
     private static MongoClient session= null;
     private static MongoDatabase mongoDatabase=null;
     private static Scanner scanner=new Scanner(System.in);
-    ConXml conXml=new ConXml();
     String correo = null;
-
+    private static BaseXClient sessionBX;
     public ConsultasJson() {
         try {
             Logger.getLogger("org.mongodb.driver").setLevel(Level.SEVERE);
@@ -62,7 +67,7 @@ public class ConsultasJson {
         System.out.println("Se inserto correctamente el usuario " + nombre);
 
     }
-//Si existe y le cambias el correo peta.
+
     public void comprobarUsuario(){
         System.out.println("Dime tu correo ");
         correo= scanner.nextLine();
@@ -157,28 +162,50 @@ public class ConsultasJson {
             }
 
         }
-//Todo acabar esta cosa
-    public void AgregarAlcarrito(){
+
+    public void AgregarAlCarrito() throws IOException {
         if (correo == null){
             System.out.println("tienes que iniciar sesion");
             comprobarUsuario();
             return;
         }
-            String videojuego;
             MongoCollection<Document>collectionUsuarios= mongoDatabase.getCollection("usuarios");
             MongoCollection<Document>collectionCarrito=mongoDatabase.getCollection("carritos");
-            Document documentCuenta=collectionUsuarios.find(Filters.eq("_id",correo)).first();
+            Document documentCuenta=collectionUsuarios.find(Filters.eq("email",correo)).first();
             int edad=documentCuenta.getInteger("edad");
-            System.out.println(edad);
-            conXml.videojuegosEdadMenor(edad);
+            String id= documentCuenta.getString("_id");
             Document documentCarritoCuenta=collectionCarrito.find(Filters.eq("_id",correo)).first();
+        String consulta= String.format("""
+                for $v in //videojuego
+                where number($v/edad_minima_recomendada) <= %d
+                return 
+                  data($v/id)  ","  
+                  data($v/titulo)  ","  
+                  data($v/precio)  ","  
+                  data($v/disponibilidad)
+            """, edad);
+       BaseXClient.Query query=sessionBX.query(consulta);
+       ArrayList<Videojuegos>listaVideojuegos=new ArrayList<>();
+       while (query.more()){
+           String videojuego= query.next();
+           String[]datos=videojuego.split(",");
+           int idV=Integer.parseInt(datos[0]);
+           String titulo=datos[1];
+           double precio=Double.parseDouble(datos[2]);
+           int disponiblidad=Integer.parseInt(datos[3]);
+           Videojuegos videojuegos=new Videojuegos(idV,titulo,"",precio,disponiblidad,"","",0,"");
+           listaVideojuegos.add(videojuegos);
+           System.out.println("----------------------------------");
+           System.out.println("id: "+videojuegos.getId());
+           System.out.println("titulo: "+videojuegos.getTitulo());
+           System.out.println("precio: "+videojuegos.getPrecio());
+           System.out.println("disponibilidad:" +videojuegos.getDisponibilidad());
+           System.out.println("----------------------------------");
+       }query.close();
             if (documentCarritoCuenta==null){
                 Document nuevoCarrito=new Document()
-                        .append("_id",correo);
+                        .append("_id",id);
                 collectionCarrito.insertOne(nuevoCarrito);
-                System.out.println("Que juego quieres agregar al carrito");
-            }else {
-                System.out.println(documentCarritoCuenta);
             }
     }
     public void mostrarCarro(){
@@ -202,4 +229,64 @@ public class ConsultasJson {
         Document document = mongoCollection.find(Filters.eq("_id",correo)).first();
         System.out.println(document);
     }
+
+    public void RealizarCompra() {
+        if (correo == null) {
+            System.out.println("Tienes que iniciar sesión");
+            comprobarUsuario();
+            return;
+        }
+
+        double total = 0;
+        MongoCollection<Document> usuarios = mongoDatabase.getCollection("usuarios");
+        MongoCollection<Document> carritos = mongoDatabase.getCollection("carritos");
+        MongoCollection<Document> compras = mongoDatabase.getCollection("compras");
+
+        Document document = usuarios.find(Filters.eq("email", correo)).first();
+        if (document == null) {
+            System.out.println("No se encontró un usuario con el correo: " + correo);
+            return;
+        }
+
+        String id = correo;
+
+        Document document1 = carritos.find(Filters.eq("_id", id)).first();
+        if (document1 == null) {
+            System.out.println("No hay nada en el carrito");
+            return;
+        }
+
+        ArrayList<Document> arrayList = (ArrayList<Document>) document1.get("productos");
+        if (arrayList == null || arrayList.isEmpty()) {
+            System.out.println("El carrito está vacío.");
+            return;
+        }
+
+        for (Document document2 : arrayList) {
+            Integer cantidad = document2.getInteger("cantidad", 0);
+            String titulo = document2.getString("nombre");
+            Double precio = document2.getDouble("precio_unitario");
+
+            total += cantidad * precio;
+            System.out.println("El videojuego: " + titulo + " tiene un precio de: " + precio + " y quieres comprar " + cantidad);
+        }
+
+        System.out.println("Total a pagar: " + total);
+
+        Document nuevaCompra = new Document()
+                .append("productos", arrayList)
+                .append("total", total)
+                .append("fecha_compra", new Date());
+
+        compras.updateOne(
+                Filters.eq("_id", id),
+                new Document("$push", new Document("videojuegos", nuevaCompra)),
+                new UpdateOptions().upsert(true) // Si el documento no existe, lo crea
+        );
+        
+        carritos.deleteOne(Filters.eq("_id", id));
+
+        System.out.println("Su compra se realizó exitosamente");
+    }
+
 }

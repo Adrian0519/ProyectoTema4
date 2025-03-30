@@ -2,10 +2,7 @@ package ConsultasJson;
 
 import ConsultasXml.ConXml;
 import Objetos.Videojuegos;
-import com.mongodb.client.MongoClient;
-import com.mongodb.client.MongoClients;
-import com.mongodb.client.MongoCollection;
-import com.mongodb.client.MongoDatabase;
+import com.mongodb.client.*;
 import com.mongodb.client.model.Filters;
 import com.mongodb.client.model.UpdateOptions;
 import com.mongodb.client.model.Updates;
@@ -15,8 +12,10 @@ import org.bson.Document;
 
 
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.Scanner;
 import java.util.logging.Filter;
 import java.util.logging.Level;
@@ -219,16 +218,31 @@ public class ConsultasJson {
         System.out.println(document);
     }
 
-    public void mostrarCompras(){
-        if (correo == null){
-            System.out.println("tienes que iniciar sesion");
+
+
+    public void mostrarCompras() {
+        if (correo == null) {
+            System.out.println("Tienes que iniciar sesión");
             comprobarUsuario();
             return;
         }
-        MongoCollection<Document>mongoCollection=mongoDatabase.getCollection("compras");
-        Document document = mongoCollection.find(Filters.eq("_id",correo)).first();
-        System.out.println(document);
+
+        MongoCollection<Document> mongoCollection = mongoDatabase.getCollection("compras");
+
+        List<Document> compras = mongoCollection.find(Filters.eq("email", correo)).into(new ArrayList<>());
+
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+
+        for (Document compra : compras) {
+            Date fechaCompra = compra.getDate("fecha_compra");
+            String fechaFormateada = (fechaCompra != null) ? dateFormat.format(fechaCompra) : "Fecha no disponible";
+
+            compra.put("fecha_compra", fechaFormateada);
+            System.out.println(compra.toJson());
+        }
     }
+
+
 
     public void RealizarCompra() {
         if (correo == null) {
@@ -248,9 +262,7 @@ public class ConsultasJson {
             return;
         }
 
-        String id = correo;
-
-        Document document1 = carritos.find(Filters.eq("_id", id)).first();
+        Document document1 = carritos.find(Filters.eq("_id", correo)).first();
         if (document1 == null) {
             System.out.println("No hay nada en el carrito");
             return;
@@ -274,17 +286,14 @@ public class ConsultasJson {
         System.out.println("Total a pagar: " + total);
 
         Document nuevaCompra = new Document()
-                .append("productos", arrayList)
+                .append("email", correo)
+                .append("videojuegos", arrayList)
                 .append("total", total)
                 .append("fecha_compra", new Date());
 
-        compras.updateOne(
-                Filters.eq("_id", id),
-                new Document("$push", new Document("videojuegos", nuevaCompra)),
-                new UpdateOptions().upsert(true) // Si el documento no existe, lo crea
-        );
+        compras.insertOne(nuevaCompra); // Inserta una nueva compra en lugar de actualizar
 
-        carritos.deleteOne(Filters.eq("_id", id));
+        carritos.deleteOne(Filters.eq("_id", correo));
 
         System.out.println("Su compra se realizó exitosamente");
     }
@@ -315,7 +324,7 @@ public class ConsultasJson {
 
         // Mostrar los carritos ordenados
         for (Document carrito : carritosList) {
-            System.out.println("Carrito de id_usuario " + carrito.getString("_id") +
+            System.out.println("Carrito de id_usuario " + carrito.getString("email") +
                     " tiene un coste total de: " + carrito.getDouble("totalCarrito"));
         }
     }

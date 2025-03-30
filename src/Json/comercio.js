@@ -70,7 +70,7 @@ db.carritos.insertMany([
 ]);
 db.compras.insertMany([
   {
-    "_id": "cliente1@example.com",
+    "email": "cliente1@example.com",
     "videojuegos": [
       {
         "nombre": "EA Sports FC 25",
@@ -87,7 +87,7 @@ db.compras.insertMany([
     "fecha_compra": ISODate("2025-01-01T23:00:00.000Z")
   },
   {
-    "_id": "cliente2@example.com",
+    "email": "cliente2@example.com",
     "videojuegos": [
       {
         "videojuego_id": 3,
@@ -106,7 +106,7 @@ db.compras.insertMany([
     "fecha_compra": ISODate("2025-02-15T12:30:00.000Z")
   },
   {
-     "_id": "cliente3@example.com",
+    "email": "cliente3@example.com",
     "videojuegos": [
       {
         "nombre": "Minecraft",

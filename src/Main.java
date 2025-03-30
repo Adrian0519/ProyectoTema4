@@ -178,7 +178,7 @@ public class Main {
                         consultasJson.mostrarCosteDCarritos();
                         break;
                     case 18:
-
+                        consultasJson.mostrarTotalComprasTodosUsuarios();
                         break;
                     case 19:
                         System.out.println("Adios");

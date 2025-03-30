@@ -3,9 +3,7 @@ package ConsultasJson;
 import ConsultasXml.ConXml;
 import Objetos.Videojuegos;
 import com.mongodb.client.*;
-import com.mongodb.client.model.Filters;
-import com.mongodb.client.model.UpdateOptions;
-import com.mongodb.client.model.Updates;
+import com.mongodb.client.model.*;
 import org.basex.BaseX;
 import org.basex.examples.api.BaseXClient;
 import org.bson.Document;
@@ -13,10 +11,7 @@ import org.bson.Document;
 
 import java.io.IOException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Scanner;
+import java.util.*;
 import java.util.logging.Filter;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -327,7 +322,45 @@ public class ConsultasJson {
             System.out.println("Carrito de id_usuario " + carrito.getString("_id") +
                     " tiene un coste total de: " + carrito.getDouble("totalCarrito"));
         }
+
     }
+
+
+    public void mostrarTotalComprasTodosUsuarios() {
+        MongoCollection<Document> compras = mongoDatabase.getCollection("compras");
+
+        List<Document> listaCompras = compras.find().into(new ArrayList<>());
+        List<String> emailsProcesados = new ArrayList<>();
+        List<Document> totalesPorUsuario = new ArrayList<>();
+
+        for (Document compra : listaCompras) {
+            String email = compra.getString("email");
+
+            if (!emailsProcesados.contains(email)) {
+                double totalGastado = 0;
+
+                for (Document otraCompra : listaCompras) {
+                    if (otraCompra.getString("email").equals(email)) {
+                        totalGastado += otraCompra.getDouble("total");
+                    }
+                }
+
+                totalesPorUsuario.add(new Document("email", email).append("total_gastado", totalGastado));
+                emailsProcesados.add(email);
+            }
+        }
+
+        totalesPorUsuario.sort(Comparator.comparingDouble(doc -> doc.getDouble("total_gastado")));
+
+        if (totalesPorUsuario.isEmpty()) {
+            System.out.println("No hay compras registradas.");
+        } else {
+            for (Document doc : totalesPorUsuario) {
+                System.out.println("Usuario: " + doc.getString("email") + " - Total gastado: " + doc.getDouble("total_gastado"));
+            }
+        }
+    }
+
 
 
 

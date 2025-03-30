@@ -324,7 +324,7 @@ public class ConsultasJson {
 
         // Mostrar los carritos ordenados
         for (Document carrito : carritosList) {
-            System.out.println("Carrito de id_usuario " + carrito.getString("email") +
+            System.out.println("Carrito de id_usuario " + carrito.getString("_id") +
                     " tiene un coste total de: " + carrito.getDouble("totalCarrito"));
         }
     }

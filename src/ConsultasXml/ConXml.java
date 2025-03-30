@@ -55,19 +55,29 @@ public class ConXml {
         }
     }
 
-    public void videojuegosEdadMenor(int edad){
+    public void videojuegosEdadMenor(int edad) {
         try {
-            String consulta= String.format("""
-                    for $videojuego in /videojuegos/videojuego[edad_minima_recomendada<=%d]
-                    order by number ($videojuego/edad_minima_recomendada) ascending
-                    return $videojuego
-                    """,edad);
-            String resultado=session.execute("xquery " + consulta);
+            String consulta = String.format("""
+                for $videojuego in /videojuegos/videojuego[edad_minima_recomendada <= %d]
+                order by number($videojuego/edad_minima_recomendada) ascending
+                return 
+                    <videojuego>
+                        <id>{$videojuego/id/text()}</id>
+                        <titulo>{$videojuego/titulo/text()}</titulo>
+                        <precio>{$videojuego/precio/text()}</precio>
+                        <disponibilidad>{$videojuego/disponibilidad/text()}</disponibilidad>
+                        <edad_minima_recomendada>{$videojuego/edad_minima_recomendada/text()}</edad_minima_recomendada>
+                        <plataforma>{$videojuego/plataforma/text()}</plataforma>
+                    </videojuego>
+                """, edad);
+
+            String resultado = session.execute("xquery " + consulta);
             System.out.println(resultado);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
     }
+
 
     public void videojuegosBaratoPlataforma(){
         try {
@@ -96,8 +106,13 @@ public class ConXml {
     public void buscarCadenaCaracteres(String cadena){
         try {
         String consulta=String.format("""
-                for $videojuegos in /videojuegos/videojuego[contains(lower-case(descripcion),"%s")] 
-                return $videojuegos
+                for $videojuegos in /videojuegos/videojuego[contains(lower-case(descripcion),"%s")]
+                order by $videojuegos/genero ascending
+                return 
+                <videojuegos>
+                                    <titulo>{data($videojuegos/titulo)}</titulo>
+                                    <genero>{data($videojuegos/genero)}</genero>
+                                </videojuegos>
                 """,cadena);
         String resultado= session.execute("xquery " + consulta);
             System.out.println(resultado);
@@ -131,7 +146,7 @@ public class ConXml {
                     "return (round($total))");
 
             String resultado= session.execute("xquery " +consulta);
-            System.out.println(resultado + "euros");
+            System.out.println(resultado + " euros");
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
